@@ -17,6 +17,7 @@ namespace GSios
 	public ProfileViewController(IntPtr handle) : base(handle)
         {
         }
+	
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
@@ -24,8 +25,8 @@ namespace GSios
 
             ProfileLabel.Text = ProfileName;
             ProfileLabel.TextAlignment = UITextAlignment.Center;
-
         }
+	
         private void SetUserName()
 	{
             pathToDatabase = Path.Combine(documentsFolder, "users_db.db");
