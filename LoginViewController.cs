@@ -18,7 +18,7 @@ namespace GSios
         
         public LoginViewController (IntPtr handle) : base (handle)
         {
-            localUsers = new List<LocalUser>();
+            localUsers = new List<LocalUser>(); 
         }
         
 		public override void ViewDidLoad()
