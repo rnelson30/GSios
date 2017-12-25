@@ -15,6 +15,8 @@ namespace GSios.DataAccess
         public UserDataAccess()
         {
         }
+	
+	//Get coordinaes of all users
 	public IEnumerable<Coordinate> getUserLocations()
 	{
 
@@ -22,7 +24,8 @@ namespace GSios.DataAccess
 	    var coords = JsonConvert.DeserializeObject<IEnumerable<Coordinate>>(json2.ToString());
 	    return coords;
 	}
-
+ 
+	//Add user to DB
         public async Task<bool> AddUser(long id, string FullName)
         {
             var client = new HttpClient();
@@ -43,7 +46,8 @@ namespace GSios.DataAccess
             return response.IsSuccessStatusCode;
 
         }
-
+        
+        //Get all coordinates 
 	private JsonValue GetCoords(string url)
 	{
 	    HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(new Uri(url));
