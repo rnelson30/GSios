@@ -44,11 +44,11 @@ namespace GSios
             LocationContainer.Hidden = locsHide;
 
             // Create Map 
-			mapDel = new MyMapDelegate();
-			map.Delegate = mapDel;
+	    mapDel = new MyMapDelegate();
+	    map.Delegate = mapDel;
 
-			map.MapType = MKMapType.Standard;
-			map.ShowsUserLocation = true;
+	    map.MapType = MKMapType.Standard;
+	    map.ShowsUserLocation = true;
 			
             View = map;
             View.AddSubview(SearchView);
@@ -126,42 +126,42 @@ namespace GSios
             }
         }
 
-		private void PinSavedLocations(MKMapView map)
-		{
+	private void PinSavedLocations(MKMapView map)
+	{
 
-			var MapItems = new List<SavedLocation>();
-			var documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-			string pathToDatabase = Path.Combine(documentsFolder, "locations_db.db");
+	   var MapItems = new List<SavedLocation>();
+	   var documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+	   string pathToDatabase = Path.Combine(documentsFolder, "locations_db.db");
 
-			using (var connection = new SQLite.SQLiteConnection(pathToDatabase))
-			{
-				var query = connection.Table<SavedLocation>();
+	   using (var connection = new SQLite.SQLiteConnection(pathToDatabase))
+	   {
+	      var query = connection.Table<SavedLocation>();
 
-				foreach (SavedLocation mapItem in query)
-				{
-					MapItems.Add(mapItem);
-				}
-			}
-			var userLocations = UserManager.GetUserLocations();
+	      foreach (SavedLocation mapItem in query)
+	      {
+		  MapItems.Add(mapItem);
+	      }
+	   }
+	   var userLocations = UserManager.GetUserLocations();
 
-			foreach (SavedLocation item in MapItems)
-			{
-				CLLocationCoordinate2D coord = new CLLocationCoordinate2D()
-				{
-					Longitude = item.Longitude,
-					Latitude = item.Latitude
-				};
-				var userCount = getUserCount(coord, userLocations);
-				var customItem = new CustomAnnotation(item.Name, coord, userCount);
-				map.AddAnnotation(customItem);
-			}
-		}
-
-		private int getUserCount(CLLocationCoordinate2D coord, IEnumerable<Coordinate> userLocs)
-		{
-			return UserManager.totalEnclosedMembers(coord, userLocs);
-		}
-
+	   foreach (SavedLocation item in MapItems)
+	   {
+	      CLLocationCoordinate2D coord = new CLLocationCoordinate2D()
+	      {
+		 Longitude = item.Longitude,
+		 Latitude = item.Latitude
+	      };
+	      var userCount = getUserCount(coord, userLocations);
+	      var customItem = new CustomAnnotation(item.Name, coord, userCount);
+	      map.AddAnnotation(customItem);
+	   }
+	}
+	
+	private int getUserCount(CLLocationCoordinate2D coord, IEnumerable<Coordinate> userLocs)
+	{
+	   return UserManager.totalEnclosedMembers(coord, userLocs);
+	}
+	
         class MyMapDelegate : MKMapViewDelegate
         {
             string pId = "PinAnnotation";
@@ -177,8 +177,7 @@ namespace GSios
                     return null;
 
                 if (annotation is CustomAnnotation)
-                {
-                    
+                {            
                     // show monkey annotation
                     anView = mapView.DequeueReusableAnnotation(cId);
 
@@ -209,23 +208,23 @@ namespace GSios
                 }
                 else
                 {
-					var documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-					pathToDatabase = Path.Combine(documentsFolder, "locations_db.db");
+		   var documentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+		   pathToDatabase = Path.Combine(documentsFolder, "locations_db.db");
 
-					AddLocation = UIButton.FromType(UIButtonType.ContactAdd);
-					AddLocation.TouchUpInside += (sender, ea) =>
-					{
-						using (var connection = new SQLite.SQLiteConnection(pathToDatabase))
-						{
-                            connection.Insert(new SavedLocation()
-                            {
-                                Name = annotation.GetTitle(),
-								Latitude = annotation.Coordinate.Latitude,
-								Longitude = annotation.Coordinate.Longitude
-							});
-                            connection.Close();
-						}
-                        mapView.RemoveAnnotation(annotation);
+		   AddLocation = UIButton.FromType(UIButtonType.ContactAdd);
+		   AddLocation.TouchUpInside += (sender, ea) =>
+		   {   
+		       using (var connection = new SQLite.SQLiteConnection(pathToDatabase))
+		       {
+                          connection.Insert(new SavedLocation()
+                          {
+                             Name = annotation.GetTitle(),
+			     Latitude = annotation.Coordinate.Latitude,
+		   	     Longitude = annotation.Coordinate.Longitude
+			  });
+                          connection.Close();
+		       }
+                       mapView.RemoveAnnotation(annotation);
                     };
                     
                     // show pin annotation
@@ -241,8 +240,6 @@ namespace GSios
 
                 return anView;
             }
-        }
-
-	}
-
-}
+       }
+   }
+}   
