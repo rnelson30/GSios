@@ -20,17 +20,19 @@ namespace GSios
         {
             localUsers = new List<LocalUser>();
         }
+        
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
             View.BackgroundColor = UIColor.Black;
 
+            //local User DB
 			pathToDatabase = Path.Combine(documentsFolder, "users_db.db");
 
 			using (var connection = new SQLite.SQLiteConnection(pathToDatabase))
 			{
 				connection.CreateTable<LocalUser>();
-                //connection.DeleteAll<LocalUser>();
+                //connection.DeleteAll<LocalUser>(); clear local user DB
 			}
 		}
 		public override void ViewDidAppear(bool animated)
@@ -54,10 +56,11 @@ namespace GSios
             }
 		}
 
+        //Facebook Login
 		private void LoginToFaceBook()
 		{
 			var auth = new OAuth2Authenticator(
-				 clientId: "308249606305123",
+				 clientId: "************", //ID hidden 
 				 scope: "",
 				 authorizeUrl: new Uri("https://m.facebook.com/dialog/oauth/"),
 				 redirectUrl: new Uri("http://www.facebook.com/connect/login_success.html"));
