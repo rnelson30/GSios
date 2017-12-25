@@ -15,13 +15,13 @@ namespace GSios.DataAccess
         public UserDataAccess()
         {
         }
-		public IEnumerable<Coordinate> getUserLocations()
-		{
+	public IEnumerable<Coordinate> getUserLocations()
+	{
 
-			JsonValue json2 = GetCoords("http://gsios.azurewebsites.net/location/userLocations");
-			var coords = JsonConvert.DeserializeObject<IEnumerable<Coordinate>>(json2.ToString());
-			return coords;
-		}
+	    JsonValue json2 = GetCoords("http://gsios.azurewebsites.net/location/userLocations");
+	    var coords = JsonConvert.DeserializeObject<IEnumerable<Coordinate>>(json2.ToString());
+	    return coords;
+	}
 
         public async Task<bool> AddUser(long id, string FullName)
         {
@@ -44,23 +44,21 @@ namespace GSios.DataAccess
 
         }
 
+	private JsonValue GetCoords(string url)
+	{
+	    HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(new Uri(url));
+	    request.ContentType = "application/json";
+	    request.Method = "GET";
 
-
-		private JsonValue GetCoords(string url)
+	    using (WebResponse response = request.GetResponseAsync().GetAwaiter().GetResult())
+	    {
+	        using (Stream stream = response.GetResponseStream())
 		{
-			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(new Uri(url));
-			request.ContentType = "application/json";
-			request.Method = "GET";
-
-			using (WebResponse response = request.GetResponseAsync().GetAwaiter().GetResult())
-			{
-				using (Stream stream = response.GetResponseStream())
-				{
-					JsonValue jsonDoc = JsonObject.Load(stream);
-					Console.Out.WriteLine("Response: {0}", jsonDoc.ToString());
-					return jsonDoc;
-				}
-			}
+		    JsonValue jsonDoc = JsonObject.Load(stream);
+		    Console.Out.WriteLine("Response: {0}", jsonDoc.ToString());
+		    return jsonDoc;
 		}
+	    }
+	}
     }
 }
