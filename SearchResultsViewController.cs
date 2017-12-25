@@ -11,13 +11,13 @@ namespace GSios
 {
 	public partial class SearchResultsViewController : UITableViewController
 	{
-		static readonly string mapItemCellId = "mapItemCellId";
-		MKMapView map;
+	    static readonly string mapItemCellId = "mapItemCellId";
+	    MKMapView map;
 
-		public List<MKMapItem> MapItems { get; set; }
-        private string pathToDatabase;
+	    public List<MKMapItem> MapItems { get; set; }
+            private string pathToDatabase;
 
-		public SearchResultsViewController(MKMapView map)
+	    public SearchResultsViewController(MKMapView map)
 		{
 			this.map = map;
 
