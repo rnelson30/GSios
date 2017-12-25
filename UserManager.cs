@@ -31,7 +31,7 @@ namespace GSios.Managers
             Console.WriteLine(new UserDataAccess().AddUser(id, FullName));
         }
 
-
+        //Math to find how many users are within an enclosed region
         private static bool isEnclosed(CLLocationCoordinate2D coord, Coordinate memberCoord){
             int radius = 6371000;
             var lat1 = coord.Latitude * Math.PI / 180.0;
